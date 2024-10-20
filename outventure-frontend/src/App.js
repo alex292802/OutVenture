@@ -10,7 +10,7 @@ const { Title } = Typography;
 
 function App() {
   const [showLogin, setShowLogin] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedSports, setSelectedSports] = useState([]);
 
   const handleLogin = () => {

@@ -1,4 +1,13 @@
 # OutVenture
+In main folder:
+
+Front
+cd outventure-frontend 
+npm start
+
+Back:
+activate venv
+python manage.py runserver
 
 APIS:
 https://portail-api.meteofrance.fr/web/fr/
@@ -21,5 +30,5 @@ J'ai une vue qui prend une localisation, je peux ensuite fournir une liste de sp
 
 Définir des préférences utilisateur pour le sport (vélo, randonnée, surf, )
 
-Les gens peuvent ajouter des spots
+Envie d'activité (pourrait être dans les préférences utilisateur), temps dispo (ou alors date et heure ?) et localisation, à partir de ça fournir une liste de spot, peu importe les sports et triée selon un score. En bas de la liste, les gens peuvent ajouter des spots
 
