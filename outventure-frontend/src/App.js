@@ -11,14 +11,9 @@ const { Title } = Typography;
 function App() {
   const [showLogin, setShowLogin] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [selectedSports, setSelectedSports] = useState([]);
 
   const handleLogin = () => {
     setIsLoggedIn(true);
-  };
-
-  const handleSportsSelected = (sports) => {
-    setSelectedSports(sports);
   };
 
   return (
@@ -40,7 +35,7 @@ function App() {
               </Button>
             </Space>
           ) : (
-            <SportSelection onSportsSelected={handleSportsSelected} />
+            <SportSelection />
           )}
         </div>
       </Content>

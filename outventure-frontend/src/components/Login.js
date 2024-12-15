@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox, Card, message } from 'antd';
 import { AuthContext } from '../context/AuthContext';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
   const [loading, setLoading] = useState(false); 
   const { login } = useContext(AuthContext);
 
@@ -12,6 +12,7 @@ const Login = () => {
     try {
       await login(values);
       message.success('Login successful!');
+      onLoginSuccess();
     } catch (error) {
       message.error('Login failed. Please check your credentials.'); 
     } finally {
