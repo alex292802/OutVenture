@@ -1,40 +1,28 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState } from 'react';
 import axios from 'axios';
+
+axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const baseRoute = "/api"
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(`${baseRoute}/user`, { withCredentials: true });
-        setUser(response.data);
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, []);
+  const baseRoute = "/api";
 
   const login = async (credentials) => {
-    const response = await axios.post(`${baseRoute}/login`, credentials, { withCredentials: true });
-    setUser(response.data);
-  };
-
-  const logout = async () => {
-    await axios.get(`${baseRoute}/logout`, { withCredentials: true });
-    setUser(null);
+    try {
+      const response = await axios.post(`${baseRoute}/token/`, credentials);
+      console.log(response);
+      setUser(response.data); // Store user data or token as needed
+      return response.data; // Return the response for further handling if needed
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login }}>
       {children}
     </AuthContext.Provider>
   );

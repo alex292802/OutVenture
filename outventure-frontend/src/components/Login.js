@@ -4,26 +4,21 @@ import { AuthContext } from '../context/AuthContext';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
-  const [loading, setLoading] = useState(false); // To manage loading state
+  const [loading, setLoading] = useState(false); 
   const { login } = useContext(AuthContext);
-  const onFinish = (values) => {
-    console.log('Received values of form: ', credentials);
-  };
 
   const handleSubmit = async (values) => {
-    setLoading(true); // Set loading to true when starting the request
+    setLoading(true);
     try {
-      // Call the login function from AuthContext with the form values
       await login(values);
-      message.success('Login successful!'); // Show success message
+      message.success('Login successful!');
     } catch (error) {
-      console.error('Login error:', error);
-      message.error('Login failed. Please check your credentials.'); // Show error message
+      message.error('Login failed. Please check your credentials.'); 
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false); 
     }
   };
+
   return (
     <Card title="Login" style={{ width: 300, margin: '20px auto' }}>
       <Form
@@ -39,8 +34,6 @@ const Login = () => {
           <Input 
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Username" 
-            alue={credentials.username}
-            onChange={(e) => setCredentials({ ...credentials, username: e.target.value })}
           />
         </Form.Item>
         <Form.Item
@@ -51,8 +44,6 @@ const Login = () => {
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
             placeholder="Password"
-            value={credentials.password}
-            onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
           />
         </Form.Item>
         <Form.Item>
@@ -66,7 +57,7 @@ const Login = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button" style={{ width: '100%' }}>
+          <Button type="primary" htmlType="submit" className="login-form-button" style={{ width: '100%' }} loading={loading}>
             Log in
           </Button>
         </Form.Item>

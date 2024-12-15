@@ -32,3 +32,32 @@ Définir des préférences utilisateur pour le sport (vélo, randonnée, surf, )
 
 Envie d'activité (pourrait être dans les préférences utilisateur), temps dispo (ou alors date et heure ?) et localisation, à partir de ça fournir une liste de spot, peu importe les sports et triée selon un score. En bas de la liste, les gens peuvent ajouter des spots
 
+Deploy:
+You can use Docker to run both the frontend and backend in separate containers.
+
+Dockerize Django Backend:
+
+Create a Dockerfile for the backend.
+Dockerize Frontend:
+
+Create a Dockerfile for the frontend to build and serve static files using a lightweight web server like nginx.
+Docker-Compose:
+
+Use docker-compose to define services for the frontend and backend:
+
+version: "3"
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+      
+With this setup, the frontend and backend are isolated but can still communicate internally.
+
+
+Ajoute une logique dans le frontend pour rafraîchir les tokens automatiquement avant leur expiration :
