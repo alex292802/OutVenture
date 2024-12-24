@@ -11,7 +11,6 @@ const Login = ({ onLoginSuccess }) => {
     setLoading(true);
     try {
       await login(values);
-      message.success('Login successful!');
       onLoginSuccess();
     } catch (error) {
       message.error('Login failed. Please check your credentials.'); 
