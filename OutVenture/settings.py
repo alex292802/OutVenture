@@ -23,6 +23,7 @@ CORS_ALLOW_CREDENTIALS = True  # Allow credentials (cookies, tokens)
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',  # Frontend origin
+    'http://localhost:3000',
 ]
 
 # Quick-start development settings - unsuitable for production
