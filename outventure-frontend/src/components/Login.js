@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox, Card, message, Space } from 'antd';
 import { AuthContext } from '../context/AuthContext';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
-const Login = ({ onLoginSuccess }) => {
+const Login = () => {
   const [loading, setLoading] = useState(false); 
   const { login } = useContext(AuthContext);
 
@@ -12,7 +12,6 @@ const Login = ({ onLoginSuccess }) => {
     try {
       await login(values);
       message.success('Connexion réussie');
-      onLoginSuccess();
     } catch (error) {
       message.error('Échec de la connexion, veuillez vérifier vos identifiants'); 
     } finally {
