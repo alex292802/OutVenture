@@ -7,22 +7,23 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const baseRoute = "/api";
 
   const login = async (credentials) => {
-    try {
-      const response = await axios.post(`${baseRoute}/token/`, credentials);
-      console.log(response);
-      setUser(response.data); // Store user data or token as needed
-      return response.data; // Return the response for further handling if needed
-    } catch (error) {
-      throw error;
-    }
+    setLoading(true);
+    const response = await axios.post(`${baseRoute}/token/`, credentials);
+    setUser(response.data); // Store user data or token as needed
+    setLoading(false);
+    return response.data; // Return the response for further handling if needed
+  };
+
+  const logout = () => {
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
