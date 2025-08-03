@@ -11,7 +11,7 @@ const Register = () => {
   };
 
   return (
-    <Card title="Register" style={{ width: 300, margin: '20px auto' }}>
+    <Card title="Inscription" style={{ width: 300, margin: '20px auto' }}>
       <Form
         form={form}
         name="register"
@@ -23,11 +23,11 @@ const Register = () => {
           rules={[
             {
               type: 'email',
-              message: 'The input is not valid E-mail!',
+              message: "L'email saisi n'est pas valide",
             },
             {
               required: true,
-              message: 'Please input your E-mail!',
+              message: "Veuillez saisir un email",
             },
           ]}
         >
@@ -39,12 +39,12 @@ const Register = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your Username!',
+              message: "Veuillez saisir un nom d'utilisateur",
               whitespace: true,
             },
           ]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Nom d'utilisateur" />
         </Form.Item>
 
         <Form.Item
@@ -52,12 +52,12 @@ const Register = () => {
           rules={[
             {
               required: true,
-              message: 'Please input your Password!',
+              message: "Veuillez saisir un mot de passe",
             },
           ]}
           hasFeedback
         >
-          <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password" />
+          <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Mot de passe" />
         </Form.Item>
 
         <Form.Item
@@ -67,26 +67,25 @@ const Register = () => {
           rules={[
             {
               required: true,
-              message: 'Please confirm your password!',
+              message: "Veuillez confirmer votre mot de passe",
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                return Promise.reject(new Error('Les mots de passe saisis ne correspondent pas'));
               },
             }),
           ]}
         >
-          <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Confirm Password" />
+          <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Confirmer le mot de passe" />
         </Form.Item>
 
         <Form.Item>
           <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-            Register
+            S'inscrire
           </Button>
-          Already have an account? <a href="">Login now!</a>
         </Form.Item>
       </Form>
     </Card>
