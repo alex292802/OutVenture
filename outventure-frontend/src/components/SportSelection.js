@@ -69,7 +69,7 @@ const SportSelection = () => {
         >
           ← Retour aux préférences
         </Button>
-        <MapComponent preferences={preferences} center={[45.7640, 4.8357]} zoom={12} />
+        <MapComponent preferences={preferences} center={[45.7640, 4.8357]}/>
       </div>
     );
   }
