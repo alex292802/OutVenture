@@ -44,10 +44,11 @@ const SportSelection = () => {
   };
 
   const handleSubmit = async () => {
+    const selectedTimeOption = timeOptions.find(option => option.value === timeAvailable);
     const userPreferences = {
       sports: selectedSports,
       location: location,
-      time_available: timeAvailable,
+      time_available: selectedTimeOption,
       date: date ? date.format('YYYY-MM-DD') : null,
     };
     setPreferences(userPreferences);

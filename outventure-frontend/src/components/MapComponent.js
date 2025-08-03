@@ -41,7 +41,7 @@ const MapComponent = ({ preferences, center}) => {
           <ul style={{ listStyle: 'none', padding: 0 }}>
             <li><strong>Localisation :</strong> {preferences.location}</li>
             <li><strong>Date choisie :</strong> {preferences.date}</li>
-            <li><strong>Plage horaire choisie :</strong> {preferences.time_available}</li>
+            <li><strong>Plage horaire choisie :</strong> {preferences.time_available.label}</li>
             <li><strong>Sports sélectionnés :</strong> {preferences.sports.join(', ')}</li>
           </ul>
         </div>
