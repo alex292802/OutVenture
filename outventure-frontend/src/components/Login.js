@@ -40,9 +40,8 @@ const Login = () => {
           name="password"
           rules={[{ required: true, message: "Veuillez saisir votre mot de passe" }]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
             placeholder="Mot de passe"
           />
         </Form.Item>
