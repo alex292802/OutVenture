@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Space, Button, Layout, Typography } from 'antd';
 import Login from './components/Login';
 import Register from './components/Register';
 import SportSelection from './components/SportSelection';
+import { AuthContext } from './context/AuthContext';
+import 'leaflet/dist/leaflet.css';
 import './App.css';
 
 const { Header, Content, Footer } = Layout;
@@ -10,11 +12,7 @@ const { Title } = Typography;
 
 function App() {
   const [showLogin, setShowLogin] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
+  const { user } = useContext(AuthContext);
 
   return (
     <Layout className="layout">
@@ -23,15 +21,15 @@ function App() {
       </Header>
       <Content style={{ padding: '0 50px' }}>
         <div className="site-layout-content">
-          {!isLoggedIn ? (
+          {!user ? (
             <Space direction="vertical" size="large" style={{ display: 'flex' }}>
               {showLogin ? (
-                <Login onLoginSuccess={handleLogin} />
+                <Login />
               ) : (
-                <Register onRegisterSuccess={handleLogin} />
+                <Register />
               )}
               <Button onClick={() => setShowLogin(!showLogin)}>
-                {showLogin ? 'Need to register?' : 'Already have an account?'}
+                {showLogin ? "Inscription" : 'Vous avez déjà un compte ?'}
               </Button>
             </Space>
           ) : (
@@ -39,7 +37,7 @@ function App() {
           )}
         </div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>OutVenture ©2024 Created by Alexandre Berger</Footer>
+      <Footer style={{ textAlign: 'center' }}>OutVenture ©2024 Créé par Alexandre Berger</Footer>
     </Layout>
   );
 }

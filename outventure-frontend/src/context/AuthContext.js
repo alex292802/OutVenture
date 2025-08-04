@@ -6,64 +6,24 @@ axios.defaults.baseURL = 'http://127.0.0.1:8000';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [accessToken, setAccessToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const baseRoute = "/api";
 
-  const saveTokens = (access, refresh) => {
-    setAccessToken(access);
-    setRefreshToken(refresh);
-    localStorage.setItem('accessToken', access);
-    localStorage.setItem('refreshToken', refresh);
-  };
-
-  const loadTokens = () => {
-    const storedAccessToken = localStorage.getItem('accessToken');
-    const storedRefreshToken = localStorage.getItem('refreshToken');
-    if (storedAccessToken && storedRefreshToken) {
-      setAccessToken(storedAccessToken);
-      setRefreshToken(storedRefreshToken);
-    }
+  const login = async (credentials) => {
+    setLoading(true);
+    const response = await axios.post(`${baseRoute}/token/`, credentials);
+    setUser(response.data); // Store user data or token as needed
+    setLoading(false);
+    return response.data; // Return the response for further handling if needed
   };
 
   const logout = () => {
-    setAccessToken(null);
-    setRefreshToken(null);
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-  };
-
-  useEffect(() => {
-    const requestInterceptor = axios.interceptors.request.use(
-      (config) => {
-        if (accessToken) {
-          config.headers.Authorization = `Bearer ${accessToken}`;
-        }
-        return config;
-      },
-      (error) => Promise.reject(error)
-    );
-
-    return () => axios.interceptors.request.eject(requestInterceptor);
-  }, [accessToken]);
-
-  useEffect(() => {
-    loadTokens();
-    setLoading(false);
-  }, []);
-
-  const login = async (credentials) => {
-    try {
-      const response = await axios.post(`token/`, credentials);
-      const { access, refresh } = response.data;
-      saveTokens(access, refresh);
-    } catch (error) {
-      throw error;
-    }
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ logout, loading, login }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
