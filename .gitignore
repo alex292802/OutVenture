@@ -6,3 +6,5 @@ outventure-frontend/build
 /venv
 
 __pycache__/
+
+/.idea
