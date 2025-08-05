@@ -32,7 +32,7 @@ const MapComponent = ({ preferences, center}) => {
     name: "Parc de la Tête d'Or",
     location: [45.7772, 4.8557],
     description: "Grand parc urbain avec lac, jardin botanique et nombreuses activités sportives",
-    sports: ["Course à pied", "Vélo"],
+    activities: ["Course à pied", "Vélo"],
     rating: 4.5,
     distance: "2.3 km"
   };
@@ -57,7 +57,7 @@ const MapComponent = ({ preferences, center}) => {
             <div>
               <h4>{suggestedSpot.name}</h4>
               <p>{suggestedSpot.description}</p>
-              <p><strong>Sports:</strong> {suggestedSpot.sports.join(', ')}</p>
+              <p><strong>Activités:</strong> {suggestedSpot.activities.join(', ')}</p>
               <p><strong>Note:</strong> ⭐ {suggestedSpot.rating}/5</p>
               <p><strong>Distance:</strong> {suggestedSpot.distance}</p>
             </div>
@@ -79,7 +79,7 @@ const MapComponent = ({ preferences, center}) => {
               <h4 style={{ margin: '0 0 8px 0', color: '#333' }}>{suggestedSpot.name}</h4>
               <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '14px' }}>{suggestedSpot.description}</p>
               <div style={{ display: 'flex', gap: '16px', fontSize: '14px' }}>
-                <span><strong>Sports:</strong> {suggestedSpot.sports.join(', ')}</span>
+                <span><strong>Activités:</strong> {suggestedSpot.activities.join(', ')}</span>
                 <span><strong>Distance:</strong> {suggestedSpot.distance}</span>
                 <span><strong>Note:</strong> ⭐ {suggestedSpot.rating}/5</span>
               </div>
@@ -102,7 +102,7 @@ const MapComponent = ({ preferences, center}) => {
             <li><strong>Localisation :</strong> {preferences.location}</li>
             <li><strong>Date choisie :</strong> {preferences.date}</li>
             <li><strong>Plage horaire choisie :</strong> {preferences.time_available.label}</li>
-            <li><strong>Sports sélectionnés :</strong> {preferences.sports.join(', ')}</li>
+            <li><strong>Activités sélectionnées :</strong> {preferences.activities.join(', ')}</li>
           </ul>
         </div>
       )}

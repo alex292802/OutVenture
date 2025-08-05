@@ -1,12 +1,17 @@
 import requests
-
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
-# TODO: manage with env variable
-TOKEN = ""
+from api.constants import Activities
+from api.secrets import GEOCODE_TOKEN
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_activities(request):
+    return Response(data=[activity.value for activity in Activities])
+
 
 # TODO: serialize request and response
 @api_view(['GET'])
@@ -17,7 +22,7 @@ def get_weather(request):
     lat = request_data.get("lat",0)
     # Get users preferences
 
-    # Filter all sports from enum to keep only the ones that match user preferences
+    # Filter all activities from enum to keep only the ones that match user preferences
     # Récupérer la météo de la station la plus proche
 
     # Renvoyer la météo
@@ -31,7 +36,7 @@ def get_weather(request):
 def validate_city(request):
     city = request.GET.get('city')
 
-    geocode_request = requests.get(f'https://geocode.xyz/{city}?json=1&auth={TOKEN}')
+    geocode_request = requests.get(f'https://geocode.xyz/{city}?json=1&auth={GEOCODE_TOKEN}')
 
     if geocode_request.status_code == 200:
         city_details = geocode_request.json()["standard"]
