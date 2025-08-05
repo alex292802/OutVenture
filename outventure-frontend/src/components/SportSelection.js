@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
-import { Card, Checkbox, Button, Typography, Input, Space, DatePicker, Radio } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Card, Checkbox, Button, Typography, Input, Space, DatePicker, Radio, message } from 'antd';
 import moment from 'moment';
 import MapComponent from './MapComponent';
-
-
+import axios from "axios";
 const { Title } = Typography;
 
-// TODO: this should be sent by the backend
-const sports = [
-  'Randonnée', 'Vélo', 'Course à pied', 'Natation', 'Kayak',
-  'Escalade', 'Ski', 'Snowboard', 'Surf', 'Yoga'
-];
-
+// TODO: handle this in backend ?
 const timeOptions = [
   { label: 'Matin', value: 'morning' },
   { label: 'Après-midi', value: 'afternoon' },
@@ -19,16 +13,34 @@ const timeOptions = [
 ];
 
 const SportSelection = () => {
+  const [activities, setActivities] = useState([]);
+  const [loadingActivities, setLoadingActivities] = useState(true);
   const [location, setLocation] = useState('');
   const [date, setDate] = useState(null);
   const [timeAvailable, setTimeAvailable] = useState(null);
-  const [selectedSports, setSelectedSports] = useState([]);
-
+  const [selectedActivities, setSelectedActivities] = useState([]);
   const [showMap, setShowMap] = useState(false);
   const [preferences, setPreferences] = useState(null);
 
-  const handleSportChange = (checkedValues) => {
-    setSelectedSports(checkedValues);
+  useEffect(() => {
+    const loadActivities = async () => {
+      setLoadingActivities(true);
+      try {
+        const response = await axios.get('/activities/');
+        setActivities(response.data || []);
+      } catch (error) {
+        message.error('Erreur lors du chargement des activités');
+        setActivities([]);
+      } finally {
+        setLoadingActivities(false);
+      }
+    };
+    loadActivities();
+  }, []); // No dependency here, hence []
+
+
+  const handleActivityChange = (checkedValues) => {
+    setSelectedActivities(checkedValues);
   };
 
   const handleDateChange = (date) => {
@@ -46,7 +58,7 @@ const SportSelection = () => {
   const handleSubmit = async () => {
     const selectedTimeOption = timeOptions.find(option => option.value === timeAvailable);
     const userPreferences = {
-      sports: selectedSports,
+      activities: selectedActivities,
       location: location,
       time_available: selectedTimeOption,
       date: date ? date.format('YYYY-MM-DD') : null,
@@ -106,15 +118,21 @@ const SportSelection = () => {
         </div>
         <div>
           <Title level={4}>Choisissez vos activités préférées :</Title>
-          <Checkbox.Group options={sports} onChange={handleSportChange} />
+          {loadingActivities ? (
+            <div>Chargement des activités...</div>
+          ) : activities && activities.length > 0 ? (
+            <Checkbox.Group options={activities} onChange={handleActivityChange} />
+          ) : (
+            <div>Aucune activité disponible</div>
+          )}
         </div>
         <Button 
           type="primary" 
           onClick={handleSubmit} 
           style={{ width: '100%' }}
-          disabled={selectedSports.length === 0 || !location || !date || !timeAvailable}
+          disabled={selectedActivities.length === 0 || !location || !date || !timeAvailable}
         >
-          Propose moi une aventure
+          Suggère moi une activité
         </Button>
       </Space>
     </Card>
