@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
@@ -11,13 +11,17 @@ export const AuthProvider = ({ children }) => {
   const [refreshToken, setRefreshToken] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Refs to store current token values for interceptors
+  const accessTokenRef = useRef(null);
+  const refreshTokenRef = useRef(null);
+
   const login = async (credentials) => {
     setLoading(true);
     try {
       const response = await axios.post(`/token/`, credentials);
       const { access, refresh } = response.data;
       saveTokens(access, refresh);
-      // TODO: setUser with only User informations. Make an other request to request informations
+      // TODO: Fetch user info with the token
       setUser(response.data);
       return response.data;
     } catch (error) {
@@ -33,6 +37,8 @@ export const AuthProvider = ({ children }) => {
     // this allows to persist user informations even after a refresh
     localStorage.setItem('accessToken', access);
     localStorage.setItem('refreshToken', refresh);
+    accessTokenRef.current = access;
+    refreshTokenRef.current = refresh;
   };
 
   const loadTokens = () => {
@@ -51,28 +57,59 @@ export const AuthProvider = ({ children }) => {
     setRefreshToken(null);
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    accessTokenRef.current = null;
+    refreshTokenRef.current = null;
   };
 
-  // TODO: Load user data on page refresh (if tokens exist). Currently, if the page reloads and tokens exist, the user stays null.
-  useEffect(() => {
-    loadTokens();
-  }, []);
-
-  // This allows to pass the token in every outgoing request
-  // TODO: handle 401 (expired token) here, we should use the refresh token to obtaine a new access token
   useEffect(() => {
     const requestInterceptor = axios.interceptors.request.use(
       (config) => {
-        if (accessToken) {
-          config.headers.Authorization = `Bearer ${accessToken}`;
+        if (accessTokenRef.current) {
+          config.headers.Authorization = `Bearer ${accessTokenRef.current}`;
         }
         return config;
       },
       (error) => Promise.reject(error)
     );
 
-    return () => axios.interceptors.request.eject(requestInterceptor);
-  }, [accessToken]);
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+        
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+          
+          // Use ref to get current refresh token value
+          if (refreshTokenRef.current) {
+            try {
+              const refreshResponse = await axios.post('/token/refresh/', {
+                refresh: refreshTokenRef.current
+              });
+              
+              const { access } = refreshResponse.data;
+              setAccessToken(access);
+              accessTokenRef.current = access;
+              
+              // Retry the original request
+              originalRequest.headers.Authorization = `Bearer ${access}`;
+              return axios(originalRequest);
+            } catch (refreshError) {
+              logout();
+              return Promise.reject(refreshError);
+            }
+          }
+        }
+        
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, loading, login, logout }}>
