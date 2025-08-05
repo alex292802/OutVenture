@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 # TODO: manage with env variable
-TOKEN = "523065778120261600498x52178 "
+TOKEN = ""
 
 # TODO: serialize request and response
 @api_view(['GET'])
