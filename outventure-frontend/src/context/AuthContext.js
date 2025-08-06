@@ -7,8 +7,6 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // Refs to store current token values for interceptors
@@ -23,7 +21,6 @@ export const AuthProvider = ({ children }) => {
       saveTokens(access, refresh);
       // TODO: Fetch user info with the token
       setUser(response.data);
-      return response.data;
     } catch (error) {
       throw error;
     } finally {
@@ -32,9 +29,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const saveTokens = (access, refresh) => {
-    setAccessToken(access);
-    setRefreshToken(refresh);
-    // this allows to persist user informations even after a refresh
     localStorage.setItem('accessToken', access);
     localStorage.setItem('refreshToken', refresh);
     accessTokenRef.current = access;
@@ -42,19 +36,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const loadTokens = () => {
-    const storedAccessToken = localStorage.getItem('accessToken');
-    const storedRefreshToken = localStorage.getItem('refreshToken');
-    if (storedAccessToken && storedRefreshToken) {
-      setAccessToken(storedAccessToken);
-      setRefreshToken(storedRefreshToken);
-    }
+    accessTokenRef.current = localStorage.getItem('accessToken');
+    refreshTokenRef.current = localStorage.getItem('refreshToken');
   };
 
   // TODO: should this triggers something in backend ?
   const logout = () => {
     setUser(null);
-    setAccessToken(null);
-    setRefreshToken(null);
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     accessTokenRef.current = null;
@@ -62,6 +50,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    loadTokens()
+
     const requestInterceptor = axios.interceptors.request.use(
       (config) => {
         if (accessTokenRef.current) {
@@ -80,7 +70,6 @@ export const AuthProvider = ({ children }) => {
         if (error.response?.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
           
-          // Use ref to get current refresh token value
           if (refreshTokenRef.current) {
             try {
               const refreshResponse = await axios.post('/token/refresh/', {
@@ -88,10 +77,8 @@ export const AuthProvider = ({ children }) => {
               });
               
               const { access } = refreshResponse.data;
-              setAccessToken(access);
               accessTokenRef.current = access;
               
-              // Retry the original request
               originalRequest.headers.Authorization = `Bearer ${access}`;
               return axios(originalRequest);
             } catch (refreshError) {
