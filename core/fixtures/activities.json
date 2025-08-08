@@ -1,0 +1,17 @@
+[
+    {
+      "model": "core.activity",
+      "pk": 1,
+      "fields": {
+        "name": "SWIMMING"
+      }
+    },
+    {
+      "model": "core.activity",
+      "pk": 2,
+      "fields": {
+        "name": "CLIMBING"
+      }
+    }
+  ]
+  

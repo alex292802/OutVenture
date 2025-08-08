@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from api.views import get_weather, validate_city, get_activities
+from core.views import get_weather, validate_city, get_activities
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
