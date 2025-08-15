@@ -3,14 +3,14 @@
       "model": "core.activity",
       "pk": 1,
       "fields": {
-        "name": "SWIMMING"
+        "name": "Nage"
       }
     },
     {
       "model": "core.activity",
       "pk": 2,
       "fields": {
-        "name": "CLIMBING"
+        "name": "Escalade"
       }
     }
   ]

@@ -15,7 +15,7 @@ class GeoEntity(models.Model):
         validators=[MinValueValidator(-90), MaxValueValidator(90)],
         blank=True,
         null=True
-        )
+    )
     activities = models.ManyToManyField(
         Activity,
         blank=True
