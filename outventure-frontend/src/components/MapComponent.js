@@ -95,17 +95,6 @@ const MapComponent = ({ preferences, center}) => {
           </div>
         </div>
       </div>
-      {preferences && (
-        <div style={{ marginTop: '20px', padding: '16px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
-          <h3>Vos préférences :</h3>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            <li><strong>Localisation :</strong> {preferences.location}</li>
-            <li><strong>Date choisie :</strong> {preferences.date}</li>
-            <li><strong>Plage horaire choisie :</strong> {preferences.time_available.label}</li>
-            <li><strong>Activités sélectionnées :</strong> {preferences.activities.join(', ')}</li>
-          </ul>
-        </div>
-      )}
     </div>
   );
 };

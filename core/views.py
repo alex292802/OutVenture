@@ -1,15 +1,18 @@
 import requests
+from rest_framework.generics import ListAPIView
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
+from core.models import Activity
 from core.secrets import GEOCODE_TOKEN
+from core.serializers import ActivitySerializer
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_activities(request):
-    return Response(data=[activity.value for activity in Activities])
+class ActivityListView(ListAPIView):
+    queryset = Activity.objects.all()
+    serializer_class = ActivitySerializer
+    permission_classes = [IsAuthenticated]
 
 
 # TODO: serialize request and response
@@ -34,13 +37,18 @@ def get_weather(request):
 @permission_classes([IsAuthenticated])
 def validate_city(request):
     city = request.GET.get('city')
-
-    geocode_request = requests.get(f'https://geocode.xyz/{city}?json=1&auth={GEOCODE_TOKEN}')
-
-    if geocode_request.status_code == 200:
-        city_details = geocode_request.json()["standard"]
-        postal = geocode_request.json()["alt"]["loc"][0]["postal"]
-        return Response(data={"validated_city": f"{city_details.get('city', '')} ({postal}) {city_details.get('prov', '')}"})
+    geocode_resp = requests.get(f'https://geocode.xyz/{city}+France?json=1&auth={GEOCODE_TOKEN}')
+    if geocode_resp.status_code == 200:
+        resp_dict = geocode_resp.json()["alt"]["loc"]
+        return Response(
+            data={
+                "city": resp_dict['city'],
+                "postal": resp_dict['postal'],
+                "country": resp_dict['prov'],
+                "longitude": resp_dict["longt"],
+                "latitude": resp_dict["latt"],
+            }
+        )
     else:
         raise ValidationError()
 
