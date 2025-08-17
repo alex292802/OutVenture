@@ -145,8 +145,9 @@ const PreferencesForm = () => {
       </div>
     );
   }
-    // TODO 1: when the localisation will be validated, displays a pop up showing user localisation and he should be able to validate again or clear fields
-    // TODO 2: On devrait pouvoir sélectionner une durée => 1h, 1/2 journée, la journée ? On devrait aussi pouvoir sélectionner 
+    // TODO 1: add the possibility to use information of localisation from the user (use pop up to ask authorization to read position of device)
+    // TODO 2: when the localisation will be validated, displays a pop up showing user localisation and he should be able to move the point if necessary
+    // TODO 3: On devrait pouvoir sélectionner une durée => 1h, 1/2 journée, la journée ? On devrait aussi pouvoir sélectionner 
     // une heure de début ? Mais ça serait aussi cool de pouvoir saisir un créneau horaire (Faire un champ quand êtes vous libres ce jour ?).
     //  On pourra sélectionner des créneaux sur la journée (disabled si c'est passé).
     return (

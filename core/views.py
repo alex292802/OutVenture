@@ -20,15 +20,9 @@ class ActivityListView(ListAPIView):
 @permission_classes([IsAuthenticated])
 def get_weather(request):
     request_data = request.data
-    long = request_data.get("long", 0)
-    lat = request_data.get("lat",0)
-    # Get users preferences
-
-    # Filter all activities from enum to keep only the ones that match user preferences
-    # Récupérer la météo de la station la plus proche
-
-    # Renvoyer la météo
-
+    longitude = request_data["longitude"]
+    latitude = request_data.get["latitude"]  
+    # TODO: Récupérer les PREVISIONS météos de la station la plus proche
     return Response(data={"temperature": 10, "humidity": 50, "wind": 10, "rain": 0})
 
 
