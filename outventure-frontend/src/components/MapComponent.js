@@ -1,4 +1,3 @@
-// MapComponent.js
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -26,7 +25,7 @@ const createRedIcon = () => {
 };
 
 const MapComponent = ({ preferences, center}) => {
-  // TODO: get suggested spots from the backend
+  // TODO: get suggested spots from the backend (use CRUD func)
   const suggestedSpot = {
     id: 1,
     name: "Parc de la Tête d'Or",

@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post(`/token/`, credentials);
       const { access, refresh } = response.data;
       saveTokens(access, refresh);
-      // TODO: Fetch user info with the token
+      // TODO: Fetch user info with the token (get)
       setUser(response.data);
     } catch (error) {
       throw error;

@@ -16,6 +16,7 @@ const PreferencesForm = () => {
   // location related states²
   const [validatingLocation, setValidatingLocation] = useState(false);
   const [city, setCity] = useState('');
+  // TODO: defaultValue should be retrieved from previous choices of the User
   const [longitude, setLongitude] = useState(null)
   const [latitude, setLatitude] = useState(null)
   const [isCityValidated, setIsCityValidated] = useState(false)
