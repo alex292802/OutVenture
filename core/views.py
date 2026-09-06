@@ -2,12 +2,12 @@ import requests
 from rest_framework.generics import ListAPIView
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+from django.conf import settings
 
 from core.models import Activity, Spot, User
-from core.secrets import GEOCODE_TOKEN
 from core.serializers import ActivitySerializer, SpotSerializer, UserSerializer
 
 class ActivityListView(ListAPIView):
@@ -56,7 +56,7 @@ def get_weather(request):
 @permission_classes([IsAuthenticated])
 def validate_city(request):
     city = request.GET.get('city')
-    geocode_resp = requests.get(f'https://geocode.xyz/{city}+France?json=1&auth={GEOCODE_TOKEN}')
+    geocode_resp = requests.get(f'https://geocode.xyz/{city}+France?json=1&auth={settings.GEOCODE_TOKEN}')
     if geocode_resp.status_code == 200:
         resp_dict = geocode_resp.json()["alt"]["loc"]
         return Response(

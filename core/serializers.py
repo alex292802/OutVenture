@@ -16,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
             "public_name",
         ]
 
-class ReviewSerializer():
+class ReviewSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = Review
