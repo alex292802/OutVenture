@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+from core.managers import UserManager
+
 
 class Activity(models.Model):
     name = models.CharField(max_length=20, unique=True)
@@ -27,9 +29,15 @@ class GeoEntity(models.Model):
 class User(AbstractUser, GeoEntity):
     # TODO: prevent user to input more characters than max_length. This can be handled by an error custom sent by the
     #  "create function" of User and then shown in frontend ?
+    username = None
+    email = models.EmailField(unique=True)
     public_name = models.CharField(max_length=20)
     friends = models.ManyToManyField("self", blank=True)
-    # TODO: add constraint public_name != user_name ?
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["public_name"]
+
+    objects = UserManager()
 
 
 class Review(models.Model):

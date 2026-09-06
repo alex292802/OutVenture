@@ -28,6 +28,16 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (payload) => {
+    setLoading(true);
+    try {
+      const response = await axios.post('/register/', payload);
+      return response.data;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const saveTokens = (access, refresh) => {
     localStorage.setItem('accessToken', access);
     localStorage.setItem('refreshToken', refresh);
@@ -99,7 +109,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

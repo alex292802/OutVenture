@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Form, Input, Button, Checkbox, Card, message, Space } from 'antd';
 import { AuthContext } from '../context/AuthContext';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { MailOutlined, LockOutlined } from '@ant-design/icons';
 
 const Login = () => {
   const [loading, setLoading] = useState(false); 
@@ -28,12 +28,15 @@ const Login = () => {
         onFinish={handleSubmit}
       >
         <Form.Item
-          name="username"
-          rules={[{ required: true, message: "Veuillez saisir votre nom d'utilisateur" }]}
+          name="email"
+          rules={[
+            { type: 'email', message: "L'email saisi n'est pas valide" },
+            { required: true, message: "Veuillez saisir votre email" },
+          ]}
         >
-          <Input 
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Nom d'utilisateur" 
+          <Input
+            prefix={<MailOutlined className="site-form-item-icon" />}
+            placeholder="Email"
           />
         </Form.Item>
         <Form.Item
