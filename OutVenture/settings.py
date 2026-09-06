@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+from core.helpers import to_bool
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -19,7 +21,7 @@ CORS_ALLOWED_ORIGINS = [
 # Loading secrets from env variable
 load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-DEBUG = os.environ["DEBUG"]
+DEBUG = to_bool(os.environ["DEBUG"])
 GEOCODE_TOKEN = os.environ["GEOCODE_TOKEN"]
 
 ALLOWED_HOSTS = []
