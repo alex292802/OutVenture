@@ -7,9 +7,10 @@ const Register = () => {
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
-    // Here you would typically handle the registration logic
+    // TODO: link this with User CRUD functions
   };
 
+  // TODO: add a pseudonyme field. Veriy that this field is different from Username
   return (
     <Card title="Inscription" style={{ width: 300, margin: '20px auto' }}>
       <Form

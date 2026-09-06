@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Space, Button, Layout, Typography } from 'antd';
 import Login from './components/Login';
 import Register from './components/Register';
-import SportSelection from './components/SportSelection';
+import PreferencesForm from './components/PreferencesForm';
 import { AuthContext } from './context/AuthContext';
 import 'leaflet/dist/leaflet.css';
 import './App.css';
@@ -33,7 +33,7 @@ function App() {
               </Button>
             </Space>
           ) : (
-            <SportSelection />
+            <PreferencesForm />
           )}
         </div>
       </Content>

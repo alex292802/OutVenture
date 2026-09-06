@@ -1,0 +1,17 @@
+[
+    {
+      "model": "core.activity",
+      "pk": 1,
+      "fields": {
+        "name": "Nage"
+      }
+    },
+    {
+      "model": "core.activity",
+      "pk": 2,
+      "fields": {
+        "name": "Escalade"
+      }
+    }
+  ]
+  
