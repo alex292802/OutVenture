@@ -5,11 +5,11 @@ from core.models import User
 from core.serializers import UserSerializer
 
 
-# TODO 1: Use this endpoint in AuthentificationContext to save user data and use it in form
-# TODO 2: use this endpoint in register form to create an user
+# TODO: Use this endpoint in AuthentificationContext to save user data and use it in form
 class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
+    queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return User.objects.filter(id=self.request.user.id)  # FIXME: this will not work
+        return User.objects.filter(id=self.request.user.id)
