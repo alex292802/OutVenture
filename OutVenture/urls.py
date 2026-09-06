@@ -1,11 +1,13 @@
 from django.contrib import admin
 from django.urls import path
-from core.views import get_weather, validate_city, ActivityListView, UserViewSet
+from core.views import (
+    get_weather,
+    validate_city,
+    ActivityListView,
+    CurrentUserView,
+    RegisterView,
+)
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from rest_framework.routers import DefaultRouter
-
-router = DefaultRouter()
-router.register("users", UserViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -14,4 +16,6 @@ urlpatterns = [
     path("city/", validate_city),
     path("token/", TokenObtainPairView.as_view()),
     path("token/refresh/", TokenRefreshView.as_view()),
-] + router.urls
+    path("register/", RegisterView.as_view()),
+    path("current-user/", CurrentUserView.as_view()),
+]

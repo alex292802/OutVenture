@@ -1,15 +1,21 @@
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from core.models import User
-from core.serializers import UserSerializer
+from core.serializers import RegisterUserSerializer, UserSerializer
 
 
-# TODO: Use this endpoint in AuthentificationContext to save user data and use it in form
-class UserViewSet(ModelViewSet):
+class RegisterView(CreateAPIView):
+    """Create a new user account from an anonymous request."""
+
+    serializer_class = RegisterUserSerializer
+    permission_classes = [AllowAny]
+
+
+class CurrentUserView(RetrieveUpdateAPIView):
+    """Read and update the currently authenticated user's own profile."""
+
     serializer_class = UserSerializer
-    queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return User.objects.filter(id=self.request.user.id)
+    def get_object(self):
+        return self.request.user
