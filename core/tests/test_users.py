@@ -46,6 +46,26 @@ def test_create_user_rejects_a_whitespace_only_email():
 
 
 @pytest.mark.django_db
+def test_public_name_must_be_unique_across_users():
+    """The public name identifies a user publicly, so it must be unique."""
+    create_user(email="alice@example.com", public_name="Explorer")
+
+    with pytest.raises(IntegrityError):
+        create_user(email="bob@example.com", public_name="Explorer")
+
+
+@pytest.mark.django_db
+def test_registration_rejects_a_duplicate_public_name():
+    """Registration must reject a public name already taken by another user."""
+    create_user(email="alice@example.com", public_name=VALID_REGISTRATION_PAYLOAD["public_name"])
+
+    response = APIClient().post("/register/", VALID_REGISTRATION_PAYLOAD)
+
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert User.objects.filter(email=VALID_REGISTRATION_PAYLOAD["email"]).count() == 0
+
+
+@pytest.mark.django_db
 def test_anonymous_user_can_register():
     """An anonymous request must be able to create a new account."""
     response = APIClient().post("/register/", VALID_REGISTRATION_PAYLOAD)

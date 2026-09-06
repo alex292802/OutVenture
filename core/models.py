@@ -31,7 +31,7 @@ class User(AbstractUser, GeoEntity):
     #  "create function" of User and then shown in frontend ?
     username = None
     email = models.EmailField(unique=True)
-    public_name = models.CharField(max_length=20)
+    public_name = models.CharField(max_length=20, unique=True)
     friends = models.ManyToManyField("self", blank=True)
 
     USERNAME_FIELD = "email"
