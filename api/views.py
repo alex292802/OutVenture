@@ -1,12 +1,10 @@
 import requests
-
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
-# TODO: manage with env variable
-TOKEN = "523065778120261600498x52178 "
 
 # TODO: serialize request and response
 @api_view(['GET'])
@@ -31,7 +29,7 @@ def get_weather(request):
 def validate_city(request):
     city = request.GET.get('city')
 
-    geocode_request = requests.get(f'https://geocode.xyz/{city}?json=1&auth={TOKEN}')
+    geocode_request = requests.get(f'https://geocode.xyz/{city}?json=1&auth={settings.GEOCODE_TOKEN}')
 
     if geocode_request.status_code == 200:
         city_details = geocode_request.json()["standard"]

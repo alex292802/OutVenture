@@ -2,3 +2,4 @@ django-cors-headers
 djangorestframework
 djangorestframework-simplejwt
 requests
+python-dotenv
