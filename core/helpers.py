@@ -1,4 +1,3 @@
-
 def to_bool(value: str | bool | int | None) -> bool:
     if isinstance(value, bool):
         return value
@@ -9,5 +8,5 @@ def to_bool(value: str | bool | int | None) -> bool:
     return value.strip().lower() in {"1", "true", "yes", "on"}
 
 
-def compute_distance(lat_a: float,long_a: float, lat_b: float, long_b: float) -> float:
+def compute_distance(lat_a: float, long_a: float, lat_b: float, long_b: float) -> float:
     return 0

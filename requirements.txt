@@ -1,5 +1,5 @@
-django-cors-headers
+django - cors - headers
 djangorestframework
-djangorestframework-simplejwt
+djangorestframework - simplejwt
 requests
-python-dotenv
+python - dotenv

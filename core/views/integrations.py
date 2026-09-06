@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from core.services.geocoding import GeocodingError, resolve_city_location
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_weather(request):
     request_data = request.data
@@ -16,10 +16,10 @@ def get_weather(request):
     return Response(data={"temperature": 10, "humidity": 50, "wind": 10, "rain": 0})
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def validate_city(request):
-    city = request.GET.get('city')
+    city = request.GET.get("city")
     try:
         location = resolve_city_location(city)
     except GeocodingError:

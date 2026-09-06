@@ -1,6 +1,7 @@
 import requests
 from django.conf import settings
 
+
 class GeocodingError(Exception):
     """Raised when the geocoding provider cannot resolve a location."""
 
